@@ -13,7 +13,7 @@ site.addsitedir('/proj/adsx/adsdata')
 import adsdata
 # metrics specific modules
 from config import config
-import utils
+from adsstats import utils
 import models
 # initiate MongoDB session
 session = adsdata.get_session()
