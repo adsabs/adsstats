@@ -2,8 +2,6 @@ import os
 from datetime import datetime
 import site
 site.addsitedir(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-# get data retrieval and helper functions
-import utils
 # get modules for math operations
 from numpy import mean
 from numpy import median
