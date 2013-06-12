@@ -304,6 +304,7 @@ class ReadsHistogram(Histogram):
         print "preparing reads histogram data...."
         for vec in cls.attributes:
             Nreads = len(vec[-2])
+            print "%s has %s reads" % (vec[0],Nreads)
             for i in range(Nreads):
                 for j in range(vec[-2][i]):
                     data.append((1996+i,1.0/float(vec[4])))
