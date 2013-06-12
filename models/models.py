@@ -88,7 +88,8 @@ class Histogram():
         today = datetime.today()
         skip = None
         values = map(lambda a: a[0], cls.data)
-        if len(values) == 0:            skip = True
+        if len(values) == 0:
+            skip = True
         weights= map(lambda a: a[1], cls.data)
         if cls.config_data_name == 'reads_histogram':
             bins = range(1996, today.year+2)
