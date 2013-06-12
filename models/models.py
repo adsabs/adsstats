@@ -321,3 +321,34 @@ class ReadsHistogram(Histogram):
                 year = cls.value_histogram[1][i]
                 res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
                 cls.results[str(year)] = res
+
+class RefereedCitationsHistogram(Histogram):
+    '''
+    This part of the citations histogram contains
+    the refereed citations to both refereed and
+    non-refereed papers
+    '''
+    config_data_name = 'refereed_citation_histogram'
+
+    @classmethod
+    def pre_process(cls):
+        data = []
+        refereed_data = []
+        for vec in cls.attributes:
+            for citation in vec[9]:
+                if not vec[1]:
+                    data.append((int(citation[0][:4]), 1.0/float(vec[4])))
+                else:
+                    refereed_data.append((int(citation[0][:4]), 1.0/float(vec[4])))
+        cls.data = data
+        cls.refereed_data = refereed_data
+
+    @classmethod
+    def post_process(cls):
+        cls.results['type'] = cls.config_data_name
+        if cls.value_histogram:
+            Nentries = len(cls.value_histogram[0])
+            for i in range(Nentries):
+                year = cls.value_histogram[1][i]
+                res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
+                cls.results[str(year)] = res
