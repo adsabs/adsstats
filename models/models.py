@@ -74,6 +74,56 @@ class Statistics():
         """
         pass
 
+# Histogram class
+class Histogram():
+
+    @classmethod
+    def generate_data(cls):
+        """
+        Get histogram for a list of values and associated weights
+        The weights are used for a normalized histogram
+        """
+        cls.results = {}
+        cls.pre_process()
+        today = datetime.today()
+        skip = None
+        values = map(lambda a: a[0], cls.data)
+        if len(values) == 0:            skip = True
+        weights= map(lambda a: a[1], cls.data)        if cls.config_data_name == 'reads_histogram':
+            bins = range(1996, today.year+2)
+        else:
+            try:
+                bins = range(min(values),max(values)+2)
+            except:
+                skip = True
+        if not skip:
+            refereed_values = map(lambda a: a[0], cls.refereed_data)
+            refereed_weights= map(lambda a: a[1], cls.refereed_data)
+            # get the regular histogram
+            cls.value_histogram = histogram(values,bins=bins)
+            cls.refereed_value_histogram = histogram(refereed_values,bins=bins)
+            # get the normalized histogram
+            cls.normalized_value_histogram = histogram(values,bins=bins,weights=weights)
+            cls.refereed_normalized_value_histogram = histogram(refereed_values,bins=bins,weights=refereed_weights)
+        else:
+            cls.value_histogram = False
+            cls.results[today.year] = "0:0:0:0"
+        cls.post_process()
+
+    @classmethod
+    def pre_process(cls, *args, **kwargs):
+        """
+        this method gets called immediately before the data load.
+        subclasses should override
+        """
+        pass
+    @classmethod
+    def post_process(cls, *args, **kwargs):
+        """
+        this method gets called immediately following the data load.
+        subclasses should override
+        """
+        pass
 
 #### Classes specific to bibliographic data:
 #
@@ -215,3 +265,29 @@ class RefereedCitationStatistics(Statistics):
         cls.results['Average refereed citations (Refereed)'] = cls.refereed_mean_value
         cls.results['Median refereed citations (Refereed)'] = cls.refereed_median_value
         cls.results['Normalized refereed citations (Refereed)'] = cls.refereed_normalized_value
+
+class PublicationHistogram(Histogram):
+    config_data_name = 'publication_histogram'
+
+    @classmethod
+    def pre_process(cls):
+        data = []
+        refereed_data = []
+        for vector in cls.attributes:
+            year = int(vector[0][:4])
+            weight = 1.0/float(vector[4])
+            if vector[1]:
+                refereed_data.append((year,weight))
+            data.append((year,weight))
+        cls.data = data
+        cls.refereed_data = refereed_data
+
+    @classmethod
+    def post_process(cls):
+        cls.results['type'] = cls.config_data_name
+        if cls.value_histogram:
+            Nentries = len(cls.value_histogram[0])
+            for i in range(Nentries):
+                year = cls.value_histogram[1][i]
+                res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
+                cls.results[str(year)] = res
