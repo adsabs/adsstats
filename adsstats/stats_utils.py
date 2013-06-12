@@ -219,6 +219,7 @@ def get_attributes(args):
     # The attribute vectors will be used to calculate the metrics
     print "Creating attribute vectors"
     attr_list = make_vectors()
+    print attr_list
     print "Sorting attribute vectors"
     attr_list = utils.sort_list_of_lists(attr_list,2)
     print "Ready for creating metrics"
