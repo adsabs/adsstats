@@ -219,7 +219,6 @@ def get_attributes(args):
     # The attribute vectors will be used to calculate the metrics
     print "Creating attribute vectors"
     attr_list = make_vectors()
-    print attr_list
     print "Sorting attribute vectors"
     attr_list = utils.sort_list_of_lists(attr_list,2)
     print "Ready for creating metrics"
@@ -259,6 +258,7 @@ def generate(**args):
 #        model_class.tori_data_refereed = tori_data_refereed # part of attr_list?
         model_class.results = {}
         stats_models.append(model_class)
+        print stats_models
 
     result=Pool(config.THREADS).map(generate_data, stats_models)
 
