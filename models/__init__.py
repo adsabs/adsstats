@@ -8,7 +8,7 @@ import inspect
 #             'histograms':Histogram,
 #             'series':TimeSeries,
 #            }
-model_map = {'statistics':Statistics}
+model_map = {'statistics':Statistics,'histograms':Histogram}
 
 def data_models(models = []):
     models = filter(lambda a: a in model_map.keys(), models)
