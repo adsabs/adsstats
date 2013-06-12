@@ -258,7 +258,6 @@ def generate(**args):
 #        model_class.tori_data_refereed = tori_data_refereed # part of attr_list?
         model_class.results = {}
         stats_models.append(model_class)
-        print stats_models
 
     result=Pool(config.THREADS).map(generate_data, stats_models)
 
