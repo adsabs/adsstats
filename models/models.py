@@ -301,6 +301,7 @@ class ReadsHistogram(Histogram):
     def pre_process(cls):
         data = []
         refereed_data = []
+        print "preparing reads histogram data...."
         for vec in cls.attributes:
             Nreads = len(vec[-2])
             for i in range(Nreads):
