@@ -292,3 +292,30 @@ class PublicationHistogram(Histogram):
                 year = cls.value_histogram[1][i]
                 res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
                 cls.results[str(year)] = res
+
+class ReadsHistogram(Histogram):
+    config_data_name = 'reads_histogram'
+
+    @classmethod
+    def pre_process(cls):
+        data = []
+        refereed_data = []
+        for vec in cls.attributes:
+            Nreads = len(vec[-2])
+            for i in range(Nreads):
+                for j in range(vec[-2][i]):
+                    data.append((1996+i,1.0/float(vec[4])))
+                    if vec[1]:
+                        refereed_data.append((1996+i,1.0/float(vec[4])))
+        cls.data = data
+        cls.refereed_data = refereed_data
+
+    @classmethod
+    def post_process(cls):
+        cls.results['type'] = cls.config_data_name
+        if cls.value_histogram:
+            Nentries = len(cls.value_histogram[0])
+            for i in range(Nentries):
+                year = cls.value_histogram[1][i]
+                res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
+                cls.results[str(year)] = res
