@@ -25,6 +25,7 @@ cit_data = manager.list()
 publication_data= manager.list([])
 citation_data= manager.list([])
 refereed_citation_data = manager.list([])
+non_refereed_citation_data = manager.list([])
 ads_data = manager.dict()
 pub_dict = manager.dict()
 glob_data= manager.list([])
@@ -33,6 +34,8 @@ global citation_dictionary
 citation_dictionary = {}
 global refereed_citation_dictionary
 refereed_citation_dictionary = {}
+global non_refereed_citation_dictionary
+non_refereed_citation_dictionary = {}
 # Definition of functions for data retrieval and processing
 # A. Functions for re-arranging data structures
 #    we data key'ed on bibcode
@@ -50,6 +53,8 @@ def merge_citations(dict):
         citation_data.append((bbc,dict['bibcode'],Nrefs))
         if 'REFEREED' in dict['property']:
             refereed_citation_data.append((bbc,dict['bibcode'],Nrefs))
+        else:
+            non_refereed_citation_data.append((bbc,dict['bibcode'],Nrefs))
 
 def create_citation_dictionaries(**args):
     for info in citation_data:
@@ -62,6 +67,11 @@ def create_citation_dictionaries(**args):
             refereed_citation_dictionary[info[0]].append((info[1],info[2]))
         except:
             refereed_citation_dictionary[info[0]] = [(info[1],info[2])]
+    for info in non_refereed_citation_data:
+        try:
+            non_refereed_citation_dictionary[info[0]].append((info[1],info[2]))
+        except:
+            non_refereed_citation_dictionary[info[0]] = [(info[1],info[2])]
 # B. Data gathering functions
 def req(url, **kwargs):
     kwargs['wt'] = 'json'
@@ -145,6 +155,10 @@ def make_vectors(**args):
             vector.append([])
         try:
             vector.append(refereed_citation_dictionary[bibcode])
+        except:
+            vector.append([])
+        try:
+            vector.append(non_refereed_citation_dictionary[bibcode])
         except:
             vector.append([])
         attr_list.append(vector)
