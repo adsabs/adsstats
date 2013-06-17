@@ -29,6 +29,10 @@ non_refereed_citation_data = manager.list([])
 ads_data = manager.dict()
 pub_dict = manager.dict()
 glob_data= manager.list([])
+### for new citation dictionary function
+cit_dict = manager.dict()
+ref_cit_dict = manager.dict()
+non_ref_cit_dict = manager.dict()
 # some global variables
 global citation_dictionary
 citation_dictionary = {}
@@ -72,6 +76,31 @@ def create_citation_dictionaries(**args):
             non_refereed_citation_dictionary[info[0]].append((info[1],info[2]))
         except:
             non_refereed_citation_dictionary[info[0]] = [(info[1],info[2])]
+
+def get_citation_dictionary(bibcode):
+    fl = 'bibcode,property,reference'
+    papers = []
+    q = 'citations(bibcode:%s)' % bibcode
+    rsp = req(SOLR_URL, q=q, fl=fl, rows=MAX_HITS)
+    cit_dict[bibcode] = []
+    ref_cit_dict[bibcode] = []
+    cits = []
+    ref_cits = []
+    non_ref_cits = []
+    for doc in rsp['response']['docs']:
+        try:
+            Nrefs = len(doc['reference'])
+        except:
+            Nrefs = 0
+        cits.append((doc['bibcode'],Nrefs))
+        if 'REFEREED' in doc['property']:
+            ref_cits.append((doc['bibcode'],Nrefs))
+        else:
+            non_ref_cits.append((doc['bibcode'],Nrefs))
+    cit_dict[bibcode] = cits
+    ref_cit_dict[bibcode] = ref_cits
+    non_ref_cit_dict[bibcode] = non_ref_cits
+
 # B. Data gathering functions
 def req(url, **kwargs):
     kwargs['wt'] = 'json'
