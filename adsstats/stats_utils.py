@@ -84,6 +84,7 @@ def get_citation_dictionary(bibcode):
     rsp = req(config.SOLR_URL, q=q, fl=fl, rows=config.MAX_HITS)
     cit_dict[bibcode] = []
     ref_cit_dict[bibcode] = []
+    non_ref_cit_dict[bibcode] = []
     cits = []
     ref_cits = []
     non_ref_cits = []
@@ -120,8 +121,8 @@ def get_mongo_data(bbc):
         pass
 
 def get_publication_data(biblist):
-#    fl = 'bibcode,reference,author_norm,property,read_count'
-    fl = ''
+    fl = 'bibcode,reference,author_norm,property,read_count'
+#    fl = ''
     list = " OR ".join(map(lambda a: "bibcode:%s"%a, biblist))
     q = '%s' % list
     rsp = req(config.SOLR_URL, q=q, fl=fl, rows=config.MAX_HITS)
