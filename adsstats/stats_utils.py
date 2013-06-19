@@ -267,7 +267,8 @@ def get_attributes(args):
     print "  duration: %s sec" % duration
 #    print "Merging citations data"
 #    result = Pool(threads).map(merge_citations,citdata)
-    print "Getting citations (alternative)"
+    print "Getting citations (alternative) for %s bibcodes" % len(bibcodes)
+    print "  # threads: %s" % threads
     stime = time.time()
     result=Pool(threads).map(get_citation_dictionary,bibcodes)
     duration = time.time() - stime
