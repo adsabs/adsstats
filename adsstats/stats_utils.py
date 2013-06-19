@@ -253,7 +253,7 @@ def get_attributes(args):
     print "Merging citations data"
     result = Pool(threads).map(merge_citations,citdata)
     print "Getting citations (alternative)"
-    result=Pool(THREADS).map(get_citation_dictionary,bibcodes)
+    result=Pool(threads).map(get_citation_dictionary,bibcodes)
     Nciting = len(citdata)
     Nciting_ref = len(filter(lambda a: 'REFEREED' in a['property'], citdata))
     print "Creating citation dictionaries"
