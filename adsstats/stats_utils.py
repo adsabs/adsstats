@@ -191,15 +191,15 @@ def make_vectors(**args):
 #        except:
 #            vector.append([])
         try:
-            vector.append(cit_dict)
+            vector.append(cit_dict[bibcode])
         except:
             vector.append([])
         try:
-            vector.append(ref_cit_dict)
+            vector.append(ref_cit_dict[bibcode])
         except:
             vector.append([])
         try:
-            vector.append(non_ref_cit_dict)
+            vector.append(non_ref_cit_dict[bibcode])
         except:
             vector.append([])
         attr_list.append(vector)
