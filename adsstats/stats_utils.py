@@ -208,6 +208,7 @@ def get_attributes(args):
         except:
             sys.stderr.write('Solr pubdata query failed\n')
             pass
+        bibcodes = map(lambda a: a['bibcode'], pubdata)
         try:
             rsp = req(solr_url, q="citations(%s)"%args['query'], fl=fl, rows=max_hits)
             citdata = rsp['response']['docs']
@@ -251,6 +252,8 @@ def get_attributes(args):
     result = Pool(threads).map(merge_publications,pubdata)
     print "Merging citations data"
     result = Pool(threads).map(merge_citations,citdata)
+    print "Getting citations (alternative)"
+    result=Pool(THREADS).map(get_citation_dictionary,bibcodes)
     Nciting = len(citdata)
     Nciting_ref = len(filter(lambda a: 'REFEREED' in a['property'], citdata))
     print "Creating citation dictionaries"
