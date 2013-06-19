@@ -81,7 +81,7 @@ def get_citation_dictionary(bibcode):
     fl = 'bibcode,property,reference'
     papers = []
     q = 'citations(bibcode:%s)' % bibcode
-    rsp = req(config.SOLR_URL, q=q, fl=fl, rows=MAX_HITS)
+    rsp = req(config.SOLR_URL, q=q, fl=fl, rows=config.MAX_HITS)
     cit_dict[bibcode] = []
     ref_cit_dict[bibcode] = []
     cits = []
