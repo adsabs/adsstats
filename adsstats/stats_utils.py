@@ -261,11 +261,17 @@ def get_attributes(args):
 #            citdata += cdata
 
     print "Merging publication data"
+    stime = time.time()
     result = Pool(threads).map(merge_publications,pubdata)
+    duration = time.time() - stime
+    print "  duration: %s sec" % duration
 #    print "Merging citations data"
 #    result = Pool(threads).map(merge_citations,citdata)
     print "Getting citations (alternative)"
+    stime = time.time()
     result=Pool(threads).map(get_citation_dictionary,bibcodes)
+    duration = time.time() - stime
+    print "  duration: %s sec" % duration
     Nciting = sum(map(lambda a: len(cit_dict[a]), cit_dict.keys()))
     Nciting_ref = sum(map(lambda a: len(cit_dict[a]), ref_cit_dict.keys()))
     # CITATION NUMBERS ARE PROBABLY IN SOLR DOCUMENTS!!!! no need for calculation
@@ -274,14 +280,23 @@ def get_attributes(args):
 #    print "Creating citation dictionaries"
 #    result = create_citation_dictionaries()
     print "Getting data from MongoDB"
+    stime = time.time()
     result = Pool(threads).map(get_mongo_data,publicationlist)
+    duration = time.time() - stime
+    print "  duration: %s sec" % duration
     # Generate the list of document attribute vectors and then
     # sort this list by citations (descending).
     # The attribute vectors will be used to calculate the metrics
     print "Creating attribute vectors"
+    stime = time.time()
     attr_list = make_vectors()
+    duration = time.time() - stime
+    print "  duration: %s sec" % duration
     print "Sorting attribute vectors"
+    stime = time.time()
     attr_list = utils.sort_list_of_lists(attr_list,2)
+    duration = time.time() - stime
+    print "  duration: %s sec" % duration
     print "Ready for creating metrics"
     return attr_list,Nciting,Nciting_ref
 
