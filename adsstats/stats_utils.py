@@ -276,6 +276,7 @@ def get_attributes(args):
     print "  duration: %s sec" % duration
     Nciting = sum(map(lambda a: len(cit_dict[a]), cit_dict.keys()))
     Nciting_ref = sum(map(lambda a: len(cit_dict[a]), ref_cit_dict.keys()))
+    print "  total: %s citations (%s refereed citations)" % (Nciting, Nciting_ref)
     # CITATION NUMBERS ARE PROBABLY IN SOLR DOCUMENTS!!!! no need for calculation
 #    Nciting = len(citdata)
 #    Nciting_ref = len(filter(lambda a: 'REFEREED' in a['property'], citdata))
