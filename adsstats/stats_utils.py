@@ -274,8 +274,8 @@ def get_attributes(args):
     result=Pool(threads).map(get_citation_dictionary,bibcodes)
     duration = time.time() - stime
     print "  duration: %s sec" % duration
-    Nciting = utils.flatten(cit_dict.values())
-    Nciting_ref = utils.flatten(ref_cit_dict.values())
+    Nciting = len(utils.flatten(cit_dict.values()))
+    Nciting_ref = len(utils.flatten(ref_cit_dict.values()))
     print "  total: %s citations (%s refereed citations)" % (Nciting, Nciting_ref)
     # CITATION NUMBERS ARE PROBABLY IN SOLR DOCUMENTS!!!! no need for calculation
 #    Nciting = len(citdata)
