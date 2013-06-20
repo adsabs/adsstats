@@ -10,3 +10,12 @@ def chunks(l, n):
         """
     for i in xrange(0, len(l), n):
         yield l[i:i+n]
+
+def flatten(items):
+    result = []
+    for item in items:
+        if hasattr(item, '__iter__'):
+            result.extend(flatten(item))
+        else:
+            result.append(item)
+    return result
