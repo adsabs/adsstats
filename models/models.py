@@ -367,13 +367,13 @@ class RefereedMetrics(Metrics):
 
     @classmethod
     def pre_process(cls):
-        data = []
-        cits = []
         biblist = map(lambda a: a[0], cls.attributes)
+        print "Refereed metrics for %s papers" % len(biblist)
         cls.time_span = utils.get_timespan(biblist)
         cls.refereed = 1
         cls.citations = map(lambda b: b[2],
                            filter(lambda a: a[1] == 1, cls.attributes))
+        print cls.citations
         cls.tori_data = map(lambda a: a[9], cls.attributes)
 
     @classmethod
