@@ -11,6 +11,27 @@ def chunks(l, n):
     for i in xrange(0, len(l), n):
         yield l[i:i+n]
 
+def flatten(items):
+    """flatten(sequence) -> list
+
+    Returns a single, flat list which contains all elements retrieved
+    from the sequence and all recursively contained sub-sequences
+    (iterables).
+
+    Examples:
+    >>> [1, 2, [3,4], (5,6)]
+    [1, 2, [3, 4], (5, 6)]
+    >>> flatten([[[1,2,3], (42,None)], [4,5], [6], 7, MyVector(8, 9, 10)])
+    [1, 2, 3, 42, None, 4, 5, 6, 7, 8, 9, 10]"""
+
+    result = []
+    for item in items:
+        if hasattr(item, '__iter__'):
+            result.extend(flatten(item))
+        else:
+            result.append(item)
+    return result
+
 def get_timespan(biblist):
     """
     Returns the time span (years) for a list of bibcodes
