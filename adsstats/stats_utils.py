@@ -338,8 +338,6 @@ def generate(**args):
         model_class.attributes = attr_list
         model_class.num_citing = num_cit
         model_class.num_citing_ref = num_cit_ref
-        model_class.citation_dictionary  = cit_dict
-        model_class.refereed_citation_dictionary = ref_cit_dict
         model_class.results = {}
         stats_models.append(model_class)
 
