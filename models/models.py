@@ -336,6 +336,53 @@ class RefereedCitationStatistics(Statistics):
         cls.results['Median refereed citations (Refereed)'] = cls.refereed_median_value
         cls.results['Normalized refereed citations (Refereed)'] = cls.refereed_normalized_value
 
+class TotalMetrics(Metrics):
+    config_data_name = 'metrics'
+
+    @classmethod
+    def pre_process(cls):
+        biblist = map(lambda a: a[0], cls.attributes)
+        cls.time_span = utils.get_timespan(biblist)
+        cls.refereed = 0
+        cls.citations = map(lambda a: a[2], cls.attributes)
+
+    @classmethod
+    def post_process(cls):
+        cls.results = {}
+        cls.results['type'] = cls.config_data_name
+        cls.results['h-index (Total)'] = cls.h_index
+        cls.results['g-index (Total)'] = cls.g_index
+        cls.results['m-index (Total)'] = cls.m_index
+        cls.results['i10-index (Total)'] = cls.i10_index
+        cls.results['e_index (Total)'] = cls.e_index
+        cls.results['tori index (Total)'] = cls.tori
+        cls.results['riq index (Total)'] = cls.riq
+
+class RefereedMetrics(Metrics):
+    config_data_name = 'refereed_metrics'
+
+    @classmethod
+    def pre_process(cls):
+        data = []
+        cits = []
+        biblist = map(lambda a: a[0], cls.attributes)
+        cls.time_span = utils.get_timespan(biblist)
+        cls.refereed = 1
+        cls.citations = map(lambda b: b[2],
+                           filter(lambda a: a[1] == 1, cls.attributes))
+
+    @classmethod
+    def post_process(cls):
+        cls.results = {}
+        cls.results['type'] = cls.config_data_name
+        cls.results['h-index (Refereed)'] = cls.h_index
+        cls.results['g-index (Refereed)'] = cls.g_index
+        cls.results['m-index (Refereed)'] = cls.m_index
+        cls.results['i10-index (Refereed)'] = cls.i10_index
+        cls.results['e_index (Refereed)'] = cls.e_index
+        cls.results['tori index (Refereed)'] = cls.tori
+        cls.results['riq index (Refereed)'] = cls.riq
+
 class PublicationHistogram(Histogram):
     config_data_name = 'publication_histogram'
 
