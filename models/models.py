@@ -110,6 +110,7 @@ class Metrics():
         except:
             e = 'NA'
         # get the Tori index
+        print cls.tori_data
         if cls.refereed:
             tori_list = [item for sublist in cls.refereed_citation_dictionary.values() for item in sublist]
         else:
@@ -349,6 +350,7 @@ class TotalMetrics(Metrics):
         cls.time_span = utils.get_timespan(biblist)
         cls.refereed = 0
         cls.citations = map(lambda a: a[2], cls.attributes)
+        cls.tori_data = map(lambda a: a[8], cls.attributes)
 
     @classmethod
     def post_process(cls):
