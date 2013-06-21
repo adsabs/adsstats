@@ -110,11 +110,7 @@ class Metrics():
         except:
             e = 'NA'
         # get the Tori index
-        print cls.tori_data
-        if cls.refereed:
-            tori_list = [item for sublist in cls.refereed_citation_dictionary.values() for item in sublist]
-        else:
-            tori_list = [item for sublist in cls.citation_dictionary.values() for item in sublist]
+        tori_list = [item for sublist in cls.toridata for item in sublist]
         tori = sum(map(lambda c: 1.0/float(c), 
                    map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],
                    filter(lambda a: len(a) > 0, tori_list))))
