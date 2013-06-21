@@ -88,16 +88,20 @@ def get_citation_dictionary(bibcode):
     cits = []
     ref_cits = []
     non_ref_cits = []
+    try:
+        Nauths = max(1,len(pub_dict[bibcode]['author_norm']))
+    except:
+        Nauths = 1
     for doc in rsp['response']['docs']:
         try:
             Nrefs = len(doc['reference'])
         except:
             Nrefs = 0
-        cits.append((doc['bibcode'],Nrefs))
+        cits.append((doc['bibcode'],Nrefs,Nauths))
         if 'REFEREED' in doc['property']:
-            ref_cits.append((doc['bibcode'],Nrefs))
+            ref_cits.append((doc['bibcode'],Nrefs,Nauths))
         else:
-            non_ref_cits.append((doc['bibcode'],Nrefs))
+            non_ref_cits.append((doc['bibcode'],Nrefs,Nauths))
     cit_dict[bibcode] = cits
     ref_cit_dict[bibcode] = ref_cits
     non_ref_cit_dict[bibcode] = non_ref_cits
