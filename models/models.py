@@ -90,7 +90,6 @@ class Metrics():
         cls.pre_process()
         # array with citations, descending order
         citations = cls.citations
-        print citations
         citations.sort()
         citations.reverse()
         # first calclate the Hirsch and g indices
@@ -344,9 +343,11 @@ class TotalMetrics(Metrics):
     @classmethod
     def pre_process(cls):
         biblist = map(lambda a: a[0], cls.attributes)
+        print "Total metrics for %s papers" % len(biblist)
         cls.time_span = utils.get_timespan(biblist)
         cls.refereed = 0
         cls.citations = map(lambda a: a[2], cls.attributes)
+        print len(cls.citations)
         cls.tori_data = map(lambda a: a[8], cls.attributes)
 
     @classmethod
