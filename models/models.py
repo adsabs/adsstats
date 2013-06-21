@@ -11,6 +11,7 @@ from numpy import histogram
 import math
 # get access to local helper functions
 from adsstats import utils
+from adsstats import config
 # JSON functionality
 import simplejson as json
 
