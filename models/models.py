@@ -110,6 +110,7 @@ class Metrics():
         except:
             e = 'NA'
         # get the Tori index
+        print cls.tori_data
         if cls.refereed:
             tori_list = [item for sublist in cls.refereed_citation_dictionary.values() for item in sublist]
         else:
