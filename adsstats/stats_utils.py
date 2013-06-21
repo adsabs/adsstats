@@ -158,12 +158,12 @@ def make_vectors(**args):
         else:
             vector.append(0)
         try:
-            Ncits = len(citation_dictionary[bibcode])
+            Ncits = len(cit_dict[bibcode])
         except:
             Ncits = 0
         vector.append(Ncits)
         try:
-            Ncits_ref = len(refereed_citation_dictionary[bibcode])
+            Ncits_ref = len(ref_cit_dict[bibcode])
         except:
             Ncits_ref = 0
         vector.append(Ncits_ref)
