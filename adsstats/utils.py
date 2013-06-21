@@ -11,11 +11,12 @@ def chunks(l, n):
     for i in xrange(0, len(l), n):
         yield l[i:i+n]
 
-def flatten(items):
-    result = []
-    for item in items:
-        if hasattr(item, '__iter__'):
-            result.extend(flatten(item))
-        else:
-            result.append(item)
-    return result
+def get_timespan(biblist):
+    """
+    Returns the time span (years) for a list of bibcodes
+    """
+    years = map(lambda a: int(a[:4]), biblist)
+    minYr = min(years)
+    maxYr = max(years)
+    span  = maxYr - minYr + 1
+    return max(span,1)
