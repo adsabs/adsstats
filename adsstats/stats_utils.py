@@ -277,6 +277,7 @@ def get_attributes(args):
     stime = time.time()
     result=Pool(threads).map(get_citation_dictionary,bibcodes)
     duration = time.time() - stime
+    print cit_dict.values()
     print "  duration: %s sec" % duration
     Nciting = len(utils.flatten(cit_dict.values()))/2
     Nciting_ref = len(utils.flatten(ref_cit_dict.values()))/2
