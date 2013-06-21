@@ -90,6 +90,7 @@ class Metrics():
         cls.pre_process()
         # array with citations, descending order
         citations = cls.citations
+        print citations
         citations.sort()
         citations.reverse()
         # first calclate the Hirsch and g indices
