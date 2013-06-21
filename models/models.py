@@ -96,6 +96,7 @@ class Metrics():
         rank = 1
         N = 0
         h = 0
+        g = 0
         for cite in citations:
             N += cite
             r2 = rank*rank
