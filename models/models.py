@@ -9,6 +9,8 @@ from numpy import vdot as vector_product
 from numpy import sqrt
 from numpy import histogram
 import math
+# get access to local helper functions
+import utils
 # JSON functionality
 import simplejson as json
 
