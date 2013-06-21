@@ -10,7 +10,7 @@ from numpy import sqrt
 from numpy import histogram
 import math
 # get access to local helper functions
-import utils
+from adsstats import utils
 # JSON functionality
 import simplejson as json
 
