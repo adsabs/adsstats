@@ -280,7 +280,7 @@ def get_attributes(args):
     duration = time.time() - stime
     print "  duration: %s sec" % duration
     tori_list = [item for sublist in cit_dict.values() for item in sublist]
-    print sum(map(lambda c: 1.0/float(c), map(lambda b: b[1]*b[2],filter(lambda a: len(a) > 0, tori_list))))
+    print sum(map(lambda c: 1.0/float(c), map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],filter(lambda a: len(a) > 0, tori_list))))
     Nciting = len(utils.flatten(cit_dict.values()))/2
     Nciting_ref = len(utils.flatten(ref_cit_dict.values()))/2
     print "  total: %s citations (%s refereed citations)" % (Nciting, Nciting_ref)
