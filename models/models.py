@@ -74,6 +74,74 @@ class Statistics():
         """
         pass
 
+# Metrics class
+
+# to calculate tori:
+#    tori_list = [item for sublist in cit_dict.values() for item in sublist]
+#    print sum(map(lambda c: 1.0/float(c), map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],filter(lambda a: len(a) > 0, tori_list))))
+
+class Metrics():
+
+    @classmethod
+    def generate_data(cls):
+        cls.pre_process()
+        # array with citations, descending order
+        citations = cls.citations
+        citations.sort()
+        citations.reverse()
+        # first calclate the Hirsch and g indices
+        rank = 1
+        N = 0
+        h = 0
+        for cite in citations:
+            N += cite
+            r2 = rank*rank
+            if r2 <= N:
+                g = rank
+            h += min(1, cite/rank)
+            rank += 1
+        # the e-index
+        try:
+            e = sqrt(sum(citations[:h]) - h*h)
+        except:
+            e = 'NA'
+        # get the Tori index
+        if cls.refereed:
+            tori_list = [item for sublist in cls.ref_cit_dict.values() for item in sublist]
+        else:
+            tori_list = [item for sublist in cls.cit_dict.values() for item in sublist]
+        tori = sum(map(lambda c: 1.0/float(c), 
+                   map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],
+                   filter(lambda a: len(a) > 0, tori_list))))
+        try:
+            riq = int(1000.0*sqrt(float(tori))/float(cls.time_span))
+        except:
+            riq = "NA"
+        cls.h_index = h
+        cls.g_index = g
+        cls.m_index = float(h)/float(cls.time_span)
+        cls.i10_index = len(filter(lambda a: a >= 10, citations))
+        cls.e_index = e
+        cls.tori = tori
+        cls.riq  = riq
+
+        cls.post_process()
+
+    @classmethod
+    def pre_process(cls, *args, **kwargs):
+        """
+        this method gets called immediately before the data load.
+        subclasses should override
+        """
+        pass
+    @classmethod
+    def post_process(cls, *args, **kwargs):
+        """
+        this method gets called immediately following the data load.
+        subclasses should override
+        """
+        pass
+
 # Histogram class
 class Histogram():
 
