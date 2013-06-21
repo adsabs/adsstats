@@ -110,7 +110,7 @@ class Metrics():
         except:
             e = 'NA'
         # get the Tori index
-        tori_list = [item for sublist in cls.toridata for item in sublist]
+        tori_list = [item for sublist in cls.tori_data for item in sublist]
         tori = sum(map(lambda c: 1.0/float(c), 
                    map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],
                    filter(lambda a: len(a) > 0, tori_list))))
