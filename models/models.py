@@ -555,3 +555,11 @@ class NonRefereedCitationsHistogram(Histogram):
                 year = cls.value_histogram[1][i]
                 res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
                 cls.results[str(year)] = res
+
+class MetricsSeries(TimeSeries):
+    config_data_name = 'metrics_series'
+
+    @classmethod
+    def post_process(cls):
+        cls.results = cls.series
+        cls.results['type'] = cls.config_data_name
