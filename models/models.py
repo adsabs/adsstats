@@ -196,6 +196,62 @@ class Histogram():
         """
         pass
 
+# Time Series class
+class TimeSeries():
+
+    @classmethod
+    def generate_data(cls):
+        """
+        Get time series
+        """
+        today = datetime.today()
+        bibcodes = map(lambda a: a[0], cls.attributes)
+        years = map(lambda a: int(a[:4]), bibcodes)
+        minYear = min(years)
+        maxYear = today.year
+        cls.series = {}
+        for year in range(minYear, maxYear+1):
+            year_data = filter(lambda a: a[0] <= year and a[1] <= year, cls.tori_data)
+            tori = sum(map(lambda a: 1.0/float(a[2])/float(a[3]), year_data))
+            new_list = utils.get_subset(cls.attributes,year)
+            new_list = utils.sort_list_of_lists(new_list,2)
+            citations = map(lambda a: a[2], new_list)
+            # first calclate the Hirsch and g indices
+            rank = 1
+            N = 0
+            h = 0
+            g = 0
+            for cite in citations:
+                N += cite
+                r2 = rank*rank
+                if r2 <= N:
+                    g = rank
+                h += min(1, cite/rank)
+                rank += 1
+            TimeSpan = year - minYear + 1
+            i10 = len(filter(lambda a: a >= 10, citations))
+            m = float(h)/float(TimeSpan)
+            roq = int(1000.0*math.sqrt(float(tori))/float(TimeSpan))
+            indices = "%s:%s:%s:%s:%s:%s" %(h,g,i10,tori,m,roq)
+            cls.series[year] = indices
+
+        cls.post_process()
+
+    @classmethod
+    def pre_process(cls, *args, **kwargs):
+        """
+        this method gets called immediately before the data load.
+        subclasses should override
+        """
+        pass
+    @classmethod
+    def post_process(cls, *args, **kwargs):
+        """
+        this method gets called immediately following the data load.
+        subclasses should override
+        """
+        pass
+
 #### Classes specific to bibliographic data:
 #
 class PublicationStatistics(Statistics):
