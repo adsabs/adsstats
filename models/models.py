@@ -210,6 +210,7 @@ class TimeSeries():
         minYear = min(years)
         maxYear = today.year
         cls.series = {}
+        print cls.tori_data
         for year in range(minYear, maxYear+1):
             year_data = filter(lambda a: a[0] <= year and a[1] <= year, cls.tori_data)
             tori = sum(map(lambda a: 1.0/float(a[2])/float(a[3]), year_data))
@@ -558,6 +559,7 @@ class NonRefereedCitationsHistogram(Histogram):
 
 class MetricsSeries(TimeSeries):
     config_data_name = 'metrics_series'
+    cls.tori_data = map(lambda a: a[8], cls.attributes)
 
     @classmethod
     def post_process(cls):
