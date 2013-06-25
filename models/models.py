@@ -211,10 +211,12 @@ class TimeSeries():
         maxYear = today.year
         cls.series = {}
         cls.pre_process()
-        print cls.tori_data
+        tori_list = [item for sublist in cls.tori_data for item in sublist]
         for year in range(minYear, maxYear+1):
-            year_data = filter(lambda a: a[0] <= year and a[1] <= year, cls.tori_data)
-            tori = sum(map(lambda a: 1.0/float(a[2])/float(a[3]), year_data))
+            year_data = filter(lambda a: int(a[0][:4]) <= year and a[3] <= year, tori_list)
+            tori = sum(map(lambda c: 1.0/float(c), 
+                   map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],
+                   filter(lambda a: len(a) > 0, year_data))))
             new_list = utils.get_subset(cls.attributes,year)
             new_list = utils.sort_list_of_lists(new_list,2)
             citations = map(lambda a: a[2], new_list)
