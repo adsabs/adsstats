@@ -239,11 +239,15 @@ def generate_data(model_class):
 # Default: 'JSON' structure of metrics 'documents'
 
 def format_results(**args):
-# data are in 'glob_data'
+# for now 'json' is the only output format offered
     try:
         format = args['format']
     except:
         format = 'json'
+
+    doc = {}
+    for entry in glob_data:
+        print entry['type']
 
 
 # General metrics engine
@@ -264,7 +268,6 @@ def generate(**args):
 
     result=Pool(config.THREADS).map(generate_data, stats_models)
 
-    print glob_data
-#    results = format_results()
+    results = format_results()
 
 #    return results
