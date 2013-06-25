@@ -41,3 +41,18 @@ def get_timespan(biblist):
     maxYr = max(years)
     span  = maxYr - minYr + 1
     return max(span,1)
+
+def get_subset(mlist,year):
+    newlist = []
+    for entry in mlist:
+        if int(entry[0][:4]) > int(year):
+            continue
+        newvec = entry[:9]
+        citations = entry[-1]
+        citations = filter(lambda a: int(a[:4]) <= int(year), citations)
+#        ref_citations = filter(lambda a: is_refereed(a), citations)
+        newvec.append(citations)
+        newvec[2]  = len(citations)
+#        newvec[3]  = len(ref_citations)
+        newlist.append(newvec)
+    return newlist
