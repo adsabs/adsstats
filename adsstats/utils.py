@@ -48,11 +48,10 @@ def get_subset(mlist,year):
         if int(entry[0][:4]) > int(year):
             continue
         newvec = entry[:9]
-        citations = entry[-1]
+        citations = entry[8]
+        print citations
         citations = filter(lambda a: int(a[:4]) <= int(year), citations)
-#        ref_citations = filter(lambda a: is_refereed(a), citations)
         newvec.append(citations)
         newvec[2]  = len(citations)
-#        newvec[3]  = len(ref_citations)
         newlist.append(newvec)
     return newlist
