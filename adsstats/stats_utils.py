@@ -250,7 +250,7 @@ def format_results(**args):
         data_dict = dict(entry)
         del data_dict['type']
         doc[entry['type']] = data_dict
-    print doc
+    return json.dumps(doc)
 
 # General metrics engine
 def generate(**args):
