@@ -214,6 +214,7 @@ class TimeSeries():
         tori_list = [item for sublist in cls.tori_data for item in sublist]
         print tori_list
         for year in range(minYear, maxYear+1):
+            print "processing year: %s" % year
             year_data = filter(lambda a: int(a[0][:4]) <= year and a[3] <= year, tori_list)
             tori = sum(map(lambda c: 1.0/float(c), 
                    map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],
