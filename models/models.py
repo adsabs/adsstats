@@ -468,7 +468,7 @@ class PublicationHistogram(Histogram):
             for i in range(Nentries):
                 year = cls.value_histogram[1][i]
                 res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
-                cls.results[str(year)] = res
+                cls.results[year] = res
 
 class ReadsHistogram(Histogram):
     config_data_name = 'reads_histogram'
@@ -496,7 +496,7 @@ class ReadsHistogram(Histogram):
             for i in range(Nentries):
                 year = cls.value_histogram[1][i]
                 res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
-                cls.results[str(year)] = res
+                cls.results[year] = res
 
 class RefereedCitationsHistogram(Histogram):
     '''
@@ -527,7 +527,7 @@ class RefereedCitationsHistogram(Histogram):
             for i in range(Nentries):
                 year = cls.value_histogram[1][i]
                 res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
-                cls.results[str(year)] = res
+                cls.results[year] = res
 
 class NonRefereedCitationsHistogram(Histogram):
     '''
@@ -558,7 +558,7 @@ class NonRefereedCitationsHistogram(Histogram):
             for i in range(Nentries):
                 year = cls.value_histogram[1][i]
                 res = "%s:%s:%s:%s" % (cls.value_histogram[0][i],cls.refereed_value_histogram[0][i],cls.normalized_value_histogram[0][i],cls.refereed_normalized_value_histogram[0][i])
-                cls.results[str(year)] = res
+                cls.results[year] = res
 
 class MetricsSeries(TimeSeries):
     config_data_name = 'metrics_series'
