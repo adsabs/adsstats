@@ -5,7 +5,7 @@ import sys
 import site
 import urllib
 import requests
-import simplejson
+import simplejson as json
 from multiprocessing import Pool, current_process
 from multiprocessing import Manager
 # module for retrieving data from MongoDB
@@ -20,16 +20,11 @@ session = adsdata.get_session()
 # memory mapped data
 manager = Manager()
 publicationlist = manager.list()
-tori_data= manager.list([])
-cit_data = manager.list()
 publication_data= manager.list([])
-citation_data= manager.list([])
-refereed_citation_data = manager.list([])
-non_refereed_citation_data = manager.list([])
 ads_data = manager.dict()
 pub_dict = manager.dict()
 glob_data= manager.list([])
-### for new citation dictionary function
+# for citation dictionary function
 cit_dict = manager.dict()
 ref_cit_dict = manager.dict()
 non_ref_cit_dict = manager.dict()
