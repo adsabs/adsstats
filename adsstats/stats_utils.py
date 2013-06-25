@@ -247,8 +247,10 @@ def format_results(**args):
 
     doc = {}
     for entry in glob_data:
-        print entry['type']
-
+        data_dict = dict(entry)
+        del data_dict['type']
+        doc[entry['type']] = data_dict
+    print doc
 
 # General metrics engine
 def generate(**args):
