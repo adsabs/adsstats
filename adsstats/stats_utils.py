@@ -266,5 +266,4 @@ def generate(**args):
     result=Pool(config.THREADS).map(generate_data, stats_models)
 
     results = format_results()
-    print results
-#    return results
+    return results
