@@ -218,11 +218,10 @@ class TimeSeries():
             tori = sum(map(lambda c: 1.0/float(c), 
                    map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],
                    filter(lambda a: len(a) > 0, year_data))))
-            print "tori: %s" % tori
             new_list = utils.get_subset(cls.attributes,year)
             new_list = utils.sort_list_of_lists(new_list,2)
-            print new_list
             citations = map(lambda a: a[2], new_list)
+            print citations
             # first calclate the Hirsch and g indices
             rank = 1
             N = 0
