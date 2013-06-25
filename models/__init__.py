@@ -3,12 +3,7 @@ from models import *
 import sys
 import inspect
 
-#model_map = {'metrics':Metrics,
-#             'statistics':Statistics,
-#             'histograms':Histogram,
-#             'series':TimeSeries,
-#            }
-model_map = {'statistics':Statistics,'histograms':Histogram,'metrics':Metrics,}
+model_map = {'statistics':Statistics,'histograms':Histogram,'metrics':Metrics,'series':TimeSeries}
 
 def data_models(models = []):
     models = filter(lambda a: a in model_map.keys(), models)
