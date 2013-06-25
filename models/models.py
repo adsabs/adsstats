@@ -213,7 +213,6 @@ class TimeSeries():
         cls.pre_process()
         tori_list = [item for sublist in cls.tori_data for item in sublist]
         for year in range(minYear, maxYear+1):
-            print "processing year: %s" % year
             year_data = filter(lambda a: int(a[0][:4]) <= year and a[3] <= year, tori_list)
             tori = sum(map(lambda c: 1.0/float(c), 
                    map(lambda b: max(b[1],config.MIN_BIBLIO_LENGTH)*b[2],
@@ -221,7 +220,6 @@ class TimeSeries():
             new_list = utils.get_subset(cls.attributes,year)
             new_list = utils.sort_list_of_lists(new_list,2)
             citations = map(lambda a: a[2], new_list)
-            print citations
             # first calclate the Hirsch and g indices
             rank = 1
             N = 0
