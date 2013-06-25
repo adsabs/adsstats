@@ -49,8 +49,7 @@ def get_subset(mlist,year):
             continue
         newvec = entry[:9]
         citations = entry[8]
-        print citations
-        citations = filter(lambda a: int(a[:4]) <= int(year), citations)
+        citations = filter(lambda a: int(a[0][:4]) <= int(year), citations)
         newvec.append(citations)
         newvec[2]  = len(citations)
         newlist.append(newvec)
