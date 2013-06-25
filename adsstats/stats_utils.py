@@ -47,36 +47,6 @@ def merge_publications(dict):
     pub_dict[dict['bibcode']] = dict
     publicationlist.append(dict['bibcode'])
 
-def merge_citations(dict):
-    cited = list(set(dict['reference']).intersection(set(publicationlist)))
-    for bbc in cited:
-        try:
-            Nrefs = len(dict['reference'])
-        except:
-            Nrefs = 0
-        citation_data.append((bbc,dict['bibcode'],Nrefs))
-        if 'REFEREED' in dict['property']:
-            refereed_citation_data.append((bbc,dict['bibcode'],Nrefs))
-        else:
-            non_refereed_citation_data.append((bbc,dict['bibcode'],Nrefs))
-
-def create_citation_dictionaries(**args):
-    for info in citation_data:
-        try:
-            citation_dictionary[info[0]].append((info[1],info[2]))
-        except:
-            citation_dictionary[info[0]] = [(info[1],info[2])]
-    for info in refereed_citation_data:
-        try:
-            refereed_citation_dictionary[info[0]].append((info[1],info[2]))
-        except:
-            refereed_citation_dictionary[info[0]] = [(info[1],info[2])]
-    for info in non_refereed_citation_data:
-        try:
-            non_refereed_citation_dictionary[info[0]].append((info[1],info[2]))
-        except:
-            non_refereed_citation_dictionary[info[0]] = [(info[1],info[2])]
-
 def get_citation_dictionary(bibcode):
     fl = 'bibcode,property,reference'
     papers = []
@@ -133,14 +103,6 @@ def get_publication_data(biblist):
     rsp = req(config.SOLR_URL, q=q, fl=fl, rows=config.MAX_HITS)
     publication_data.append(rsp['response']['docs'])
 
-def get_citation_data(biblist):
-    fl = ''
-    #fl = 'bibcode,reference,author_norm,property'
-    list = " OR ".join(map(lambda a: "bibcode:%s"%a, biblist))
-    q = 'citations(%s)' % list
-    rsp = req(config.SOLR_URL, q=q, fl=fl, rows=config.MAX_HITS)
-    cit_data.append(rsp['response']['docs'])
-
 def get_bibcodes_from_private_library(id):
     sys.stderr.write('Private libraries are not yet implemented')
     return []
@@ -184,18 +146,6 @@ def make_vectors(**args):
             vector.append(ads_data[bibcode]['reads'])
         except:
             vector.append([])
-#        try:
-#            vector.append(citation_dictionary[bibcode])
-#        except:
-#            vector.append([])
-#        try:
-#            vector.append(refereed_citation_dictionary[bibcode])
-#        except:
-#            vector.append([])
-#        try:
-#            vector.append(non_refereed_citation_dictionary[bibcode])
-#        except:
-#            vector.append([])
         try:
             vector.append(cit_dict[bibcode])
         except:
@@ -227,12 +177,6 @@ def get_attributes(args):
             sys.stderr.write('Solr pubdata query failed\n')
             pass
         bibcodes = map(lambda a: a['bibcode'], pubdata)
-#        try:
-#            rsp = req(solr_url, q="citations(%s)"%args['query'], fl=fl, rows=max_hits)
-#            citdata = rsp['response']['docs']
-#        except:
-#            sys.stderr.write('Solr citation data query failed\n')
-#            pass
     elif 'bibcodes' in args:
         pubdata = []
         citdata = []
@@ -247,32 +191,14 @@ def get_attributes(args):
         print "duration: %s sec" % duration
         for adata in publication_data:
             pubdata += adata
- #       print "Getting citation data"
- #       stime = time.time()
- #       result=Pool(threads).map(get_citation_data,biblists)
- #       etime = time.time()
- #       duration = etime-stime
- #       print "duration: %s sec" % duration
- #       for cdata in cit_data:
- #           citdata += cdata
     elif 'libid' in args:
         bibcodes = get_bibcodes_from_private_library(args['libid'])
-        return
-#        biblists = list(utils.chunks(bibcodes,chunk_size))
-#        result=Pool(threads).map(get_publication_data,biblists)
-#        for adata in publication_data:
-#            pubdata += adata
-#        result=Pool(threads).map(get_citation_data,biblists)
-#        for cdata in cit_data:
-#            citdata += cdata
 
     print "Merging publication data"
     stime = time.time()
     result = Pool(threads).map(merge_publications,pubdata)
     duration = time.time() - stime
     print "  duration: %s sec" % duration
-#    print "Merging citations data"
-#    result = Pool(threads).map(merge_citations,citdata)
     print "Getting citations (alternative) for %s bibcodes" % len(bibcodes)
     print "  # threads: %s" % threads
     stime = time.time()
@@ -282,11 +208,6 @@ def get_attributes(args):
     Nciting = len(utils.flatten(cit_dict.values()))/2
     Nciting_ref = len(utils.flatten(ref_cit_dict.values()))/2
     print "  total: %s citations (%s refereed citations)" % (Nciting, Nciting_ref)
-    # CITATION NUMBERS ARE PROBABLY IN SOLR DOCUMENTS!!!! no need for calculation
-#    Nciting = len(citdata)
-#    Nciting_ref = len(filter(lambda a: 'REFEREED' in a['property'], citdata))
-#    print "Creating citation dictionaries"
-#    result = create_citation_dictionaries()
     print "Getting data from MongoDB"
     stime = time.time()
     result = Pool(threads).map(get_mongo_data,publicationlist)
