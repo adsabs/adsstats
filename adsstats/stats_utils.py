@@ -254,7 +254,7 @@ def generate(**args):
     try:
         model_types = args['types'].split(',')
     except:
-        model_types = config.default_models
+        model_types = config.DEFAULT_MODELS
     # Instantiate the metrics classes, defined in the 'models' module
     for model_class in models.data_models(models=model_types):
         model_class.attributes = attr_list
