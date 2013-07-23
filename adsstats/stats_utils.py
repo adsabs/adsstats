@@ -265,6 +265,5 @@ def generate(**args):
 
     rez=Pool(config.THREADS).map(generate_data, stats_models)
     print glob_data
-    results = ''
-#    results = format_results()
+    results = format_results()
     return results
