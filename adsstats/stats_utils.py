@@ -263,7 +263,7 @@ def generate(**args):
         model_class.results = {}
         stats_models.append(model_class)
 
-    result=Pool(config.THREADS).map(generate_data, stats_models)
+    rez=Pool(config.THREADS).map(generate_data, stats_models)
 
-    results = format_results()
+#    results = format_results()
     return results
