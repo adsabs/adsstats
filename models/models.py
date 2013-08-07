@@ -178,7 +178,7 @@ class Histogram():
             cls.refereed_normalized_value_histogram = histogram(refereed_values,bins=bins,weights=refereed_weights)
         else:
             cls.value_histogram = False
-            cls.results[today.year] = "0:0:0:0"
+            cls.results[str(today.year)] = "0:0:0:0"
         cls.post_process()
 
     @classmethod
