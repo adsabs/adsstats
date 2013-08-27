@@ -280,7 +280,7 @@ def legacy_format(data):
     for (year,values) in data['citation histogram'].items():
         entries = values.split(':')
         new_entries = [entries[entry_mapping[i]] for i in range(len(entries))]
-        citation_histogram[year] = new_entries
+        citation_histogram[year] = ":".join(new_entries)
     return data['all stats'],data['refereed stats'],data['all reads'],data['refereed reads'],data['paper histogram'],data['reads histogram'],citation_histogram,data['metrics series']
 
 # General metrics engine
