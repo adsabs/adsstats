@@ -275,7 +275,7 @@ def format_results(data_dict, **args):
     return doc
 
 def legacy_format(data):
-    entry_mapping = {1:1, 2:3, 3:4, 4:2, 5:5, 6:7, 7:8, 8:6}
+    entry_mapping = {0:0, 1:2, 2:3, 3:1, 4:4, 5:6, 6:7, 7:5}
     citation_histogram = {}
     for (year,values) in data['citation histogram'].items():
         entries = values.split(':')
