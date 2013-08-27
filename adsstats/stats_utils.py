@@ -247,7 +247,7 @@ def format_results_old(**args):
         doc[entry['type']] = data_dict
     return json.dumps(doc)
 
-def format_results(**args):
+def format_results(data_dict, **args):
     # We want to return JSON, and at the same time support backward compatibility
     # This is achieved by stucturing the resulting JSON into sections that
     # correspond with the output from the 'legacy' metrics module
@@ -293,5 +293,5 @@ def generate(**args):
     rez=Pool(config.THREADS).map(generate_data, stats_models)
 
     print glob_data
-    results = format_results()
+    results = format_results(glob_data)
     return results
