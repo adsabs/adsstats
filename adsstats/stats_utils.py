@@ -265,10 +265,10 @@ def format_results(data_dict, **args):
     doc['metrics series'] = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'metrics_series')
 #    a = doc['all citation histogram']
     a = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'all_citation_histogram')
-    del a['type']
+#    del a['type']
 #    b = doc['refereed citation histogram']
     b = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'refereed_citation_histogram')
-    del b['type']
+#    del b['type']
     c = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'non_refereed_citation_histogram')
     doc['citation histogram'] = dict((n, ":".join(["%s:%s"%(x,y) for (x,y) in zip(a[n],b[n])])) for n in set(a)|set(b))
     doc['citation histogram']['type'] = "citation_histogram"
