@@ -233,7 +233,7 @@ def generate_data(model_class):
 # F. Format and export the end results
 # Default: 'JSON' structure of metrics 'documents'
 
-def format_results(**args):
+def format_results_old(**args):
 # for now 'json' is the only output format offered
     try:
         format = args['format']
@@ -246,6 +246,33 @@ def format_results(**args):
         del data_dict['type']
         doc[entry['type']] = data_dict
     return json.dumps(doc)
+
+def format_results(data_dict,**args):
+    # We want to return JSON, and at the same time support backward compatibility
+    # This is achieved by stucturing the resulting JSON into sections that
+    # correspond with the output from the 'legacy' metrics module
+    stats = ['publications', 'refereed_citations', 'citations', 'metrics','refereed_metrics']
+    doc = {}
+    doc['all stats'] = dict((k.replace('(Total)','').strip(),v) for d in data_dict for (k,v) in d.items() if '(Total)' in k and d['type'] in stats)
+    doc['refereed stats'] = dict((k.replace('(Refereed)','').strip(),v) for d in data_dict for (k,v) in d.items() if '(Refereed)' in k and d['type'] in stats)
+    reads = ['reads','downloads']
+    doc['all reads'] = dict((k.replace('(Total)','').strip(),v) for d in data_dict for (k,v) in d.items() if '(Total)' in k and d['type'] in reads)
+    doc['refereed reads'] = dict((k.replace('(Refereed)','').strip(),v) for d in data_dict for (k,v) in d.items() if '(Refereed)' in k and d['type'] in reads)
+    doc['paper histogram'] = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'publication_histogram')
+    doc['reads histogram'] = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'reads_histogram')
+#    doc['all citation histogram'] = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'all_citation_histogram')
+#    doc['refereed citation histogram'] = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'refereed_citation_histogram')
+    doc['metrics series'] = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'metrics_series')
+#    a = doc['all citation histogram']
+    a = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'all_citation_histogram')
+    del a['type']
+#    b = doc['refereed citation histogram']
+    b = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'refereed_citation_histogram')
+    del b['type']
+    c = dict((k,v) for d in data_dict for (k,v) in d.items() if d['type'] == 'non_refereed_citation_histogram')
+    doc['citation histogram'] = dict((n, ":".join(["%s:%s"%(x,y) for (x,y) in zip(a[n],b[n])])) for n in set(a)|set(b))
+    doc['citation histogram']['type'] = "citation_histogram"
+    return doc
 
 # General metrics engine
 def generate(**args):
