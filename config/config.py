@@ -5,6 +5,11 @@ _basedir = os.path.abspath(os.path.dirname(__file__))
 class AppConfig(object):
 
 #    LOG_DIR = os.path.exists(_basedir + "/logs") and _basedir + "/logs" or "."
+    METRICS_DEFAULT_MODELS = ['statistics','histograms','metrics','series']
+    METRICS_THREADS = 8
+    METRICS_MIN_BIBLIO_LENGTH = 5
+    METRICS_CHUNK_SIZE = 100
+    METRICS_MAX_HITS = 100000
     MONGO_DATABASE = 'adsdata'
     MONGO_HOST = "localhost"
     MONGO_PORT = 27017
