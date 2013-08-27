@@ -274,10 +274,20 @@ def format_results(data_dict, **args):
     doc['citation histogram']['type'] = "citation_histogram"
     return doc
 
+def legacy_format(data):
+    entry_mapping = {1:1, 2:3, 3:4, 4:2, 5:5, 6:7, 7:8, 8:6}
+    citation_histogram = {}
+    for (year,values) in data['citation histogram'].items():
+        entries = values.split(':')
+        new_entries = [entries[entry_mapping[i]] for i in range(len(entries))]
+        citation_histogram[year] = new_entries
+    return data['all stats'],data['refereed stats'],data['all reads'],data['refereed reads'],data['paper histogram'],data['reads histogram'],citation_histogram,data['metrics series']
+
 # General metrics engine
 def generate(**args):
     attr_list,num_cit,num_cit_ref = get_attributes(args)
     stats_models = []
+    format = args.get('fmt','')
     try:
         model_types = args['types'].split(',')
     except:
@@ -293,4 +303,7 @@ def generate(**args):
     rez=Pool(config.THREADS).map(generate_data, stats_models)
 
     results = format_results(glob_data)
-    return results
+    if format == 'legacy':
+        return legacy_format(results)
+    else:
+        return results
